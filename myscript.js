@@ -1,11 +1,8 @@
-let playerSelection = prompt("Rock,Paper,Scissors?","rock");
+let playerSelection = '';
 let computerSelection = computerPlay();
 
-let a = computerPlay();
-
-
-console.log(game());
-
+let win = 0;
+let lose = 0;
 
 function computerPlay(){
     let result = Math.random()*10;
@@ -50,33 +47,54 @@ function playRound(){
     }
 };
 
-function game(){
-let win = 0;
-let lose = 0;
-    for(let i = 0; i<5;i++){
+const menu = document.querySelectorAll("button");
+menu.forEach((entry) =>{
+    entry.addEventListener('click', ()=>{
+        playerSelection = entry.id;
         computerSelection = computerPlay();
-        let score = playRound();
-        
-        console.log(win);
-        console.log(computerSelection);
+        game();
+        results.textContent = `${win} : ${lose}`;
+        endgame();
+    });
+});
 
-        if(score.slice(0,7) == "You Win"){
-            win++;
-        }
-        else{
-            lose++;
-        }    
-    }
-    if (win == lose){
-        return "It's a tie! IMPOSSIBLE"
-    }
-    else if (win > lose){
-        return "You won."
+const results = document.querySelector('.results');
+const finale = document.createElement('p');
+
+
+function game(){
+let score = playRound();    
+    if(score.slice(0,7) == "You Win"){
+        win++;
     }
     else{
-        return "You lost."
+        lose++;
+   }    
+};
+
+function endgame(){
+
+    if (win+lose == 5){
+        if (win == lose){
+            finale.textContent = "It's a tie! IMPOSSIBLE"
+            results.appendChild(finale);
+            win = 0;
+            lose = 0;
+        }
+        else if (win > lose){
+            finale.textContent = "You won."
+            results.appendChild(finale);
+            win = 0;
+            lose = 0;}
+        else{
+            finale.textContent = "You lost."
+            results.appendChild(finale);
+            win = 0;
+            lose = 0;
+        }        
     }
 };
+    
 
 
 
